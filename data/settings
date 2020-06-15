@@ -1,0 +1,12 @@
+[graphics]
+	window-width = 1280;
+	window-height = 720;
+	v-sync = 1;
+	framerate-limit = 0;
+---
+
+[advanced]
+	camera-speed = 1000.0;
+	fast-camera-speed = 4000.0;
+	max-planets = 250;
+---
