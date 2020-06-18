@@ -25,7 +25,8 @@ You can try directly running the program in the `bin` folder but I'm expecting i
 ## V1.1b-alpha Jun 18 2020
 * Bug fixes
 	* **framerate-limit** setting now works
-* Added `install.sh` script to automatically install solys
+* New features
+	* Added `install.sh` script to automatically install solys
 ## V1.0-alpha - Jun 15 2020
 * The basics are done!
     * The physiys work
