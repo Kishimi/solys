@@ -32,6 +32,7 @@
 #include "game_object.hpp"
 #include "celestial_body.hpp"
 #include "config.hpp"
+#include "version.hpp"
 #include "solui.hpp"
 
 class Game
@@ -88,6 +89,7 @@ private: /* PRIVATE VARS */
 	sf::RenderWindow window;
 	sf::View camera;
 	float camera_speed, fast_camera_speed;
+	unsigned int framerate_limit;
 
 	sf::Clock clock;
 	World world = World(0.081f);

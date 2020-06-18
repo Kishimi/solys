@@ -30,20 +30,21 @@
 bool Game::init(const Config& config)
 {
 	// Load settings
+	//
 	sf::VideoMode vmode;
 
 	// Load "graphics" settings
 	vmode.width = config.get_value<unsigned int>("graphics", "window-width");
 	vmode.height = config.get_value<unsigned int>("graphics", "window-height");
 	window.setVerticalSyncEnabled(config.get_value<bool>("graphics", "v-sync"));
-	window.setFramerateLimit(config.get_value<unsigned int>("graphics", "framerate-limit"));
+	framerate_limit = config.get_value<unsigned int>("graphics", "framerate-limit");
 
 	// Load "advanced" settings
 	camera_speed = config.get_value<float>("advanced", "camera-speed");
 	fast_camera_speed = config.get_value<float>("advanced", "fast-camera-speed");
 
 	// create window
-	window.create(vmode, "Solys V1.0");
+	window.create(vmode, "Solys " + SOLYS_VERSION);
 
 	// init view
 	camera.setCenter(0.0f, 0.0f);
@@ -96,10 +97,16 @@ void Game::run()
 				break;
 		}
 
+		// window.setTitle("Solys " + SOLYS_VERSION + std::to_string(1.0f / clock.getElapsedTime().asSeconds()));
 		window.display();
 
 		clock.restart();
-		sf::sleep(sf::milliseconds(1)); // don't kill the cpu's
+
+		if (framerate_limit != 0)
+		{
+			// sleep to hold a framerate
+			sf::sleep(sf::milliseconds((1.0f / framerate_limit) * 1000));
+		}
 	}
 }
 
