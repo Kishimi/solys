@@ -35,6 +35,11 @@
  * 			c = Changed a feature
  *
  *	CHANGELOG
+ *		V1.2fr-alpha:
+ *			Removed my own gui "library"
+ *			Added Dear ImGui library for gui
+ *			New main menu bar
+ *
  *		V1.1b-alpha:
  *			Fixed setFramerateLimit does not work
  *			Added install.sh script to automatically install solys
@@ -49,4 +54,4 @@
 
 #include <string>
 
-#define SOLYS_VERSION (std::string("1.1b-alpha"))
+#define SOLYS_VERSION (std::string("1.2fr-alpha"))
