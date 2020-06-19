@@ -33,7 +33,8 @@
 #include "celestial_body.hpp"
 #include "config.hpp"
 #include "version.hpp"
-#include "solui.hpp"
+#include "imgui/imgui.h"
+#include "imgui/imgui-SFML.h"
 
 class Game
 {
@@ -49,6 +50,11 @@ public: /* PUBLIC TYPES */
 	};
 
 public: /* PUBLIC FUNCS */
+
+	/**
+	 * @brief Just clean up
+	 */
+	~Game();
 
 	/**
 	 * @brief Initialize the game and create a SFML2 RenderWindow with videomode
@@ -71,9 +77,9 @@ private: /* PRIVATE FUNCS */
 	void draw_game_world();
 
 	/**
-	 * @brief Draw main menu
+	 * @brief Draw ui
 	 */
-	void draw_main_menu();
+	void draw_ui();
 
 	/**
 	 * @brief Handle all queued sf::Events

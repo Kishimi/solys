@@ -27,6 +27,11 @@
 
 #include "game.hpp"
 
+Game::~Game()
+{
+	ImGui::SFML::Shutdown();
+}
+
 bool Game::init(const Config& config)
 {
 	// Load settings
@@ -51,14 +56,8 @@ bool Game::init(const Config& config)
 	camera.setSize((float)window.getSize().x, (float)window.getSize().y);
 	window.setView(camera);
 
-	// init solui
-	sf::Font font;
-	font.loadFromFile("data/fonts/DejaVuSans.ttf");
-	if (!solui::init(&window, font))
-	{
-		// TODO: handle error
-		return false;
-	}
+	// init imgui
+	ImGui::SFML::Init(window);
 
 	// init game variables
 	state = State::paused;
@@ -70,6 +69,9 @@ bool Game::init(const Config& config)
 	CelestialBody* earth = new CelestialBody(1.5f, 6.0f);
 	earth->set_pos(0.0f, -400.0f);
 	earth->set_vel(earth->calc_orbital_velocity(0.081f, sun), 0.0f);
+
+	sun->set_name("Sun");
+	earth->set_name("Earth");
 	
 	world.spawn(sun);
 	world.spawn(earth);
@@ -86,25 +88,39 @@ void Game::run()
 
 		window.clear();
 
+		// Update ImGui
+		ImGui::SFML::Update(window, clock.getElapsedTime());
+
+		// draw gui
+		draw_ui();
+
 		switch (state)
-		{
+		{	
 			case State::playing:
+				world.update(clock);
 				draw_game_world();
 				break;
 
 			case State::paused:
-				draw_main_menu();
+				draw_game_world();
+
+			default:
 				break;
 		}
+
+		// Render ImGui
+		ImGui::EndFrame();
+		ImGui::SFML::Render(window);
 
 		// window.setTitle("Solys " + SOLYS_VERSION + std::to_string(1.0f / clock.getElapsedTime().asSeconds()));
 		window.display();
 
+		// reset delta time
 		clock.restart();
 
+		// sleep to hold a framerate
 		if (framerate_limit != 0)
 		{
-			// sleep to hold a framerate
 			sf::sleep(sf::milliseconds((1.0f / framerate_limit) * 1000));
 		}
 	}
@@ -114,35 +130,59 @@ void Game::draw_game_world()
 {
 	window.setView(camera);
 
-	world.update(clock);
 	world.draw(window);
-
-	// draw gui
-	window.setView(window.getDefaultView());
-
-	if (solui::button("<- back to main menu", { 10.0f, 10.0f, 200.0f, 40.0f }))
-	{
-		state = State::paused;
-		sf::sleep(sf::milliseconds(100));
-	}
 }
 
-void Game::draw_main_menu()
+void Game::draw_ui()
 {
 	// set back to default view
 	window.setView(window.getDefaultView());
 
-	// Play Button
-	if (solui::button("Play", { 10.0f, 10.0f, 200.0f, 80.0f }, 50))
+	if (ImGui::BeginMainMenuBar())
 	{
-		state = State::playing;
-		sf::sleep(sf::milliseconds(100));
-	}
+		// draw the play button depending on the state
+		switch (state)
+		{
+			case State::playing:
+				if (ImGui::Button("II"))
+				{
+					state = State::paused;
+				}
+				break;
 
-	if (solui::button("Quit", { 10.0f, 100.0f, 200.0f, 80.0f }, 50))
+			case State::paused:
+				if (ImGui::Button("|>"))
+				{
+					state = State::playing;
+				}
+				break;
+
+			default:
+				break;
+		}
+
+		if (ImGui::Button("Add Planet"))
+		{
+			
+		}
+
+		if (ImGui::Button("Quit"))
+		{
+			window.close();
+		}
+	} ImGui::EndMainMenuBar();
+
+	// Window with planet list
+	if (ImGui::Begin("Planets"))
 	{
-		window.close();
-	}
+		for (const auto& obj: world.get_objs())
+		{
+			if (ImGui::Button(obj->get_name().c_str()))
+			{
+
+			}
+		}
+	} ImGui::End();
 }
 
 void Game::handle_events()
@@ -151,6 +191,8 @@ void Game::handle_events()
 
 	while (window.pollEvent(event))
 	{
+		ImGui::SFML::ProcessEvent(event);
+
 		switch (event.type)
 		{
 			case sf::Event::Closed:
