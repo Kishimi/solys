@@ -22,6 +22,12 @@ You can try directly running the program in the `bin` folder
 		* Copy the created executable from `bin` to the directory where `data` is in, but not in `data`
 
 # Changelog
+## V1.2fr-alpha Jun 19 2020
+* New features
+	* Added the *Dear ImGui* lib to handle gui easily
+	* Added a main menu using *Dear ImGui*
+* Removed features
+	* Removed my own gui "lib", solui
 ## V1.1b-alpha Jun 18 2020
 * Bug fixes
 	* **framerate-limit** setting now works
