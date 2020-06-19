@@ -48,7 +48,7 @@ World::~World()
 
 void World::update(const sf::Clock& clock)
 {
-	for (auto& obj : objects)
+	for (auto& obj: objects)
 	{
 		switch (obj->type)
 		{
@@ -73,7 +73,7 @@ void World::update(const sf::Clock& clock, CelestialBody* obj) const
 	float F, a, angle;
 	sf::Vector2f acceleration;
 
-	for (const auto& other : objects)
+	for (const auto& other: objects)
 	{
 		if (!obj->compare(other))
 		{
@@ -92,7 +92,7 @@ void World::update(const sf::Clock& clock, CelestialBody* obj) const
 
 void World::draw(sf::RenderWindow& window)
 {
-	for (const auto& obj : objects)
+	for (const auto& obj: objects)
 	{
 		obj->draw(window);
 	}
@@ -103,4 +103,9 @@ void World::draw(sf::RenderWindow& window)
 void World::spawn(GameObject* obj)
 {
 	objects.push_back(obj);
+}
+
+std::vector<GameObject*> World::get_objs() const
+{
+	return objects;
 }

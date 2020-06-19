@@ -58,6 +58,12 @@ public: /* PUBLIC FUNCS */
 	 */
 	void spawn(GameObject* obj);
 
+	/**
+	 * @brief Get a copy of all game_objects
+	 * @return Copy of all game_objects
+	 */
+	std::vector<GameObject*> get_objs() const;
+
 private: /* PRIVATE FUNCS */
 
 	// GAME OBJECT
