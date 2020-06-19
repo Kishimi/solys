@@ -23,6 +23,7 @@
 #	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #	SOFTWARE.
 
+# COMPILER
 CC = g++
 
 SRCDIR = src
@@ -33,13 +34,14 @@ SRCEXT = cpp
 SRCS = $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJ = $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SRCS:.$(SRCEXT)=.o))
 CFL = -g -Wall -Wextra -Werror -Wpedantic -std=c++2a
-LIB = -lsfml-graphics -lsfml-window -lsfml-system
-# LIB =
-INC = -I include
+LIB = -lsfml-graphics -lsfml-window -lsfml-system -lGL
+INC = -I include -I lib
+
+IMGUI_SRC = lib/imgui/*.cpp
 
 $(TARGET): $(OBJ)
 	@echo "Linking..."
-	@echo "$(CC) $^ -o $(TARGET) $(LIB)"; $(CC) $^ -o $(TARGET) $(LIB)
+	@echo "$(CC) $^ $(IMGUI_SRC) -o $(TARGET) $(LIB)"; $(CC) $^ $(IMGUI_SRC) -o $(TARGET) $(LIB)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(BUILDDIR)

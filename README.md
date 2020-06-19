@@ -4,7 +4,7 @@ A 2D star system simulation
 # How to install
 ## Linux
 ### Running it directly
-You can try directly running the program in the `bin` folder but I'm expecting it *not* to work
+You can try directly running the program in the `bin` folder
 
 ### Compiling it
 * General
