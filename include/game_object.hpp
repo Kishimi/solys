@@ -52,7 +52,7 @@ public: /* PUBLIC FUNCS */
 	 * @param type The type of the GameObject
 	 */
 	GameObject(const Type type);
-	virtual ~GameObject() {};
+	virtual ~GameObject();
 
 	/* PUBLIC FUNCS */
 	/**
@@ -203,6 +203,18 @@ public: /* PUBLIC FUNCS */
 	bool compare(const GameObject* const obj) const;
 
 	/**
+	 * @brief Set the name of the GameObject
+	 * @param name The new name
+	 */
+	void set_name(const std::string name);
+
+	/**
+	 * @brief Get the name of the GameObject
+	 * @return std::string containing the name
+	 */
+	std::string get_name() const;
+
+	/**
 	 * @brief This is the GameObject type.
 	 * 		It is used to cast a GameObject to a derived class of Base GameObject.
 	 */
@@ -211,4 +223,7 @@ public: /* PUBLIC FUNCS */
 protected: /* PROTECTED VARS */
 	sf::Vector2f pos, vel;
 	float mass;
+
+	std::string name;
+	static unsigned int id;
 };

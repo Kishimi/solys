@@ -27,9 +27,18 @@
 
 #include "game_object.hpp"
 
+unsigned int GameObject::id = 0;
+
 GameObject::GameObject(const Type type):
 	type(type)
 {
+	set_name(std::to_string(id));
+	id++;
+}
+
+GameObject::~GameObject()
+{
+	id--;
 }
 
 sf::Vector2f GameObject::get_pos() const
@@ -96,7 +105,7 @@ float GameObject::calc_orbital_velocity(const float G, const std::vector<GameObj
 {
 	// add all masses
 	float mass = 0.0f;
-	for (const auto& obj : objs)
+	for (const auto& obj: objs)
 	{
 		mass += obj->get_mass();
 	}
@@ -151,4 +160,14 @@ bool GameObject::compare(const GameObject* const obj) const
 		vel		== obj->vel		&&
 		mass	== obj->mass
 	);
+}
+
+void GameObject::set_name(const std::string name)
+{
+	this->name = name;
+}
+
+std::string GameObject::get_name() const
+{
+	return name;
 }
