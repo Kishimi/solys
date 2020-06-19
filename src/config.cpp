@@ -62,7 +62,7 @@ std::string Config::get_value<std::string>(const std::string sname, const std::s
 	Section sec;
 
 	// find the section
-	for (const auto& section : sections)
+	for (const auto& section: sections)
 	{
 		if (section.name == sname)
 		{
@@ -77,7 +77,7 @@ std::string Config::get_value<std::string>(const std::string sname, const std::s
 	}
 
 	// find the variable
-	for (const auto& var : sec.vars)
+	for (const auto& var: sec.vars)
 	{
 		if (var.name == vname)
 		{
