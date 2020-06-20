@@ -36,7 +36,7 @@ public: /* PUBLIC FUNCS */
 
 	/**
 	 * @brief Constructor to create a celestial body with density and radius, and a color.
-	 * @param density The density of the celestial in m
+	 * @param density The density of the celestial in kg / m^3
 	 * @param radius The radius of the celestial in m
 	 * @param color The color of the celestial, default = sf::Color::White
 	 */
@@ -49,7 +49,7 @@ public: /* PUBLIC FUNCS */
 	 * @brief Update a celestial relative to time
 	 * @param clock The delta time
 	 */
-	void update(const sf::Clock& clock) override;
+	void update(const float time) override;
 
 	/**
 	 * @brief Draw a celestial
@@ -89,6 +89,24 @@ public: /* PUBLIC FUNCS */
 	 * @return The volume in m^3
 	 */
 	static float calc_volume(const float radius);
+
+	/**
+	 * @brief Get the radius of the CelestialBody
+	 * @return The radius in m
+	 */
+	float get_radius() const;
+
+	/**
+	 * @brief Get the desnity of the CelestialBody
+	 * @return The density in kg / m^3
+	 */
+	float get_density() const;
+
+	/**
+	 * @brief Set the density of the CelestialBody
+	 * @param density The density in kg / m^3
+	 */
+	void set_density(const float density);
 
 private: /* PRIVATE VARS */
 	float	density,

@@ -59,7 +59,7 @@ public: /* PUBLIC FUNCS */
 	 * @brief Update the GameObject relative to time
 	 * @param clock Sfml clock with delta time
 	 */
-	virtual void update(const sf::Clock& clock) = 0;
+	virtual void update(const float time) = 0;
 
 	/**
 	 * @brief Draw GameObject to sf::RenderWindow

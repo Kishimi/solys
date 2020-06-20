@@ -41,9 +41,9 @@ CelestialBody::CelestialBody(const float density, const float radius, const sf::
 	vel = sf::Vector2f(0.0f, 0.0f);
 }
 
-void CelestialBody::update(const sf::Clock& clock)
+void CelestialBody::update(const float time)
 {
-	pos += vel * (float)clock.getElapsedTime().asSeconds();
+	pos += vel * time;
 	shape.setPosition((float)pos.x, (float)pos.y);
 }
 
@@ -76,4 +76,19 @@ float CelestialBody::calc_mass(const float density, const float volume)
 float CelestialBody::calc_volume(const float radius)
 {
 	return (4.0f / 3.0f) * (float)M_PI * radius * radius * radius;
+}
+
+float CelestialBody::get_radius() const
+{
+	return radius;
+}
+
+float CelestialBody::get_density() const
+{
+	return density;
+}
+
+void CelestialBody::set_density(const float density)
+{
+	this->density = density;
 }
