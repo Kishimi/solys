@@ -63,18 +63,9 @@ bool Game::init(const Config& config)
 	state = State::paused;
 
 	// init the game world
-	CelestialBody* sun = new CelestialBody(500.0f, 70.0f);
-	sun->set_color(sf::Color::Yellow);
+	selected_obj = nullptr;
 
-	CelestialBody* earth = new CelestialBody(1.5f, 6.0f);
-	earth->set_pos(0.0f, -400.0f);
-	earth->set_vel(earth->calc_orbital_velocity(0.081f, sun), 0.0f);
-
-	sun->set_name("Sun");
-	earth->set_name("Earth");
-	
-	world.spawn(sun);
-	world.spawn(earth);
+	world.spawn(static_cast<GameObject*>(new CelestialBody(10.0f, 25.0f)));
 
 	return window.isOpen();
 }
@@ -97,19 +88,20 @@ void Game::run()
 		switch (state)
 		{	
 			case State::playing:
-				world.update(clock);
+				world.update(clock.getElapsedTime().asSeconds());
 				draw_game_world();
 				break;
 
 			case State::paused:
+				world.update(0.0f);
 				draw_game_world();
+				break;
 
 			default:
 				break;
 		}
 
 		// Render ImGui
-		ImGui::EndFrame();
 		ImGui::SFML::Render(window);
 
 		// window.setTitle("Solys " + SOLYS_VERSION + std::to_string(1.0f / clock.getElapsedTime().asSeconds()));
@@ -163,7 +155,10 @@ void Game::draw_ui()
 
 		if (ImGui::Button("Add Planet"))
 		{
-			
+			CelestialBody* cb = new CelestialBody(50.0f, 10.0f);
+			cb->set_pos(camera.getCenter());
+
+			world.spawn(static_cast<GameObject*>(cb));
 		}
 
 		if (ImGui::Button("Quit"))
@@ -175,14 +170,62 @@ void Game::draw_ui()
 	// Window with planet list
 	if (ImGui::Begin("Planets"))
 	{
+		if (ImGui::Button("None"))
+		{
+			selected_obj = nullptr;
+		}
+
 		for (const auto& obj: world.get_objs())
 		{
 			if (ImGui::Button(obj->get_name().c_str()))
 			{
-
+				selected_obj = obj;
 			}
 		}
-	} ImGui::End();
+
+	ImGui::End(); }
+
+	// Window if planet is selected
+	if (
+		selected_obj != nullptr &&
+		ImGui::Begin(selected_obj->get_name().c_str())
+	)
+	{
+		switch (selected_obj->type)
+		{
+			case GameObject::Type::celestial_body:
+			{
+				CelestialBody* cb = static_cast<CelestialBody*>(selected_obj);
+				float radius = cb->get_radius();
+				float density = cb->get_density();
+				sf::Vector2f vel = cb->get_vel();
+
+				if (ImGui::SliderFloat("Radius", &radius, 1.0f, 500.0f))
+				{
+					cb->set_radius(radius);
+				}
+
+				if (ImGui::SliderFloat("Density", &density, 1.0f, 1000.0f))
+				{
+					cb->set_density(density);
+				}
+
+				if (ImGui::SliderFloat("X-Vel", &vel.x, -500.0f, 500.0f))
+				{
+					cb->set_vel(vel);
+				}
+
+				if (ImGui::SliderFloat("Y-Vel", &vel.y, -500.0f, 500.0f))
+				{
+					cb->set_vel(vel);
+				}
+
+			}	break;
+
+			default:
+				break;
+		}
+	ImGui::End(); }
 }
 
 void Game::handle_events()

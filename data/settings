@@ -2,7 +2,7 @@
 	window-width = 1280;
 	window-height = 720;
 	v-sync = 1;
-	framerate-limit = 120;
+	framerate-limit = 0;
 ---
 
 [advanced]

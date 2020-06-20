@@ -44,7 +44,7 @@ public: /* PUBLIC FUNCS */
 	 * @brief Update the World
 	 * @param clock the game timer
 	 */
-	void update(const sf::Clock& clock);
+	void update(const float time);
 
 	/**
 	 * @brief Draw the Worl to an sf::RenderWindow
@@ -73,7 +73,7 @@ private: /* PRIVATE FUNCS */
 	 * @param clock The game timer
 	 * @param obj A reference to the GameObject
 	 */
-	void update(const sf::Clock& clock, GameObject* obj) const;
+	void update(const float time, GameObject* obj) const;
 
 	// CELESTIAL BODY
 	//
@@ -82,7 +82,7 @@ private: /* PRIVATE FUNCS */
 	 * @param clock the game timer
 	 * @param obj The CelestialBody to update
 	 */
-	void update(const sf::Clock& clock, CelestialBody* obj) const;
+	void update(const float time, CelestialBody* obj) const;
 
 private: /* PRIVATE VARS */
 	std::vector<GameObject*> objects;

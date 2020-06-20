@@ -100,4 +100,6 @@ private: /* PRIVATE VARS */
 	sf::Clock clock;
 	World world = World(0.081f);
 	State state;
+
+	GameObject* selected_obj;
 };

@@ -46,29 +46,29 @@ World::~World()
 
 /* UPDATE FUNCTIONS */
 
-void World::update(const sf::Clock& clock)
+void World::update(const float time)
 {
 	for (auto& obj: objects)
 	{
 		switch (obj->type)
 		{
 			case GameObject::Type::celestial_body:
-				update(clock, static_cast<CelestialBody*>(obj));
+				update(time, static_cast<CelestialBody*>(obj));
 				break;
 
 			default:
-				update(clock, obj);
+				update(time, obj);
 				break;
 		}
 	}
 }
 
-void World::update(const sf::Clock& clock, GameObject* obj) const
+void World::update(const float time, GameObject* obj) const
 {
-	obj->update(clock);
+	obj->update(time);
 }
 
-void World::update(const sf::Clock& clock, CelestialBody* obj) const
+void World::update(const float time, CelestialBody* obj) const
 {
 	float F, a, angle;
 	sf::Vector2f acceleration;
@@ -81,11 +81,11 @@ void World::update(const sf::Clock& clock, CelestialBody* obj) const
 			a = obj->calc_acceleration(F);
 			angle = obj->calc_angle(other);
 			acceleration = obj->calc_angle_to_vec(angle) * a;
-			obj->accelerate(acceleration * clock.getElapsedTime().asSeconds());
+			obj->accelerate(acceleration * time);
 		}
 	}
 
-	obj->update(clock);
+	obj->update(time);
 }
 
 /* DRAW FUNCTIONS */
