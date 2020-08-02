@@ -1,3 +1,5 @@
+# I want to continue working on solys, but right know I lost track of what works and what not, so this readme might be complete trash, and the source code might be too
+
 # solys
 A 2D star system simulation
 
